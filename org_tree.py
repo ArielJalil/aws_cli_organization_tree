@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-List AWS accounts in the company Organization or display an Organization tree.
+"""List AWS accounts in the company Organization or display an Organization
+tree.
 
 Usage: org_tree.py [OPTIONS]
 
@@ -8,6 +8,7 @@ Usage: org_tree.py [OPTIONS]
   will be displayed.
 
 Options:
+
   --ou_only / --no-ou_only        Display Organization Units (OUs) only
                                   [default: no-ou_only]
   --account_only / --no-account_only
@@ -21,24 +22,25 @@ Options:
                                   Display AWS Accounts by environment type in
                                   your own name convention  [default: ALL]
   --help                          Show this message and exit.
-
 """
 
-import click
 import os
 import sys
-import botocore
-import boto3
+import click        # pylint: disable=import-error
+import botocore     # pylint: disable=import-error
+import boto3        # pylint: disable=import-error
+
 
 def display_exception(msg):
     """Show excepion messages and abort."""
     print(f"ERROR | Boto3 session failed with error message below:\n {msg}")
     sys.exit()
 
+
 class AwsSession:
     """Manage boto3 session."""
 
-    def __init__(self, profile, region):
+    def __init__(self, profile: str, region: str):
         """Create Dynamo DB resource."""
         self.profile = profile
         self.region = region
@@ -51,14 +53,13 @@ class AwsSession:
                 profile_name=self.profile,
                 region_name=self.region
             )
-
         except botocore.exceptions.ProfileNotFound as e:
             display_exception(e)
 
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-exception-caught
             display_exception(e)
 
-        session._session.get_component(
+        session._session.get_component(  # pylint: disable=protected-access
             'credential_provider'
         ).get_provider(
             'assume-role'
@@ -72,15 +73,15 @@ class AwsSession:
         """Start a session to be used in a Lambda funcion."""
         try:
             session = boto3.Session(region_name=self.region)
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-exception-caught
             display_exception(e)
 
         return session
 
 
 ELBOW = "└── "
-TEE   = "├── "
-PIPE  = "│   "
+TEE = "├── "
+PIPE = "│   "
 SPACE = "    "
 
 
@@ -122,7 +123,7 @@ def paginate(client: object, method: str, **kwargs) -> list:
 
 def fix_sort_accounts(accounts: list) -> list:
     """Fix odd aws account name and sort aphabetically."""
-    accounts_fixed_name = list()
+    accounts_fixed_name = []
     for ac in accounts:
         accounts_fixed_name.append(fix_account_alias(ac))
 
@@ -135,7 +136,7 @@ def fix_sort_accounts(accounts: list) -> list:
 def display_org_accounts(environment: str) -> None:
     """Display active Accounts in the Organization in alphabetical order."""
     ac_counter = 0
-    aws_accounts = list(paginate(org, 'list_accounts'))
+    aws_accounts = list(paginate(ORG, 'list_accounts'))
     sorted_accounts = fix_sort_accounts(aws_accounts)
 
     for ac in sorted_accounts:
@@ -146,15 +147,15 @@ def display_org_accounts(environment: str) -> None:
             account_env = get_env(ac['Name'])
             if environment == account_env:
                 ac_counter += 1
-                print(f"{ac_counter:02d},{ac['Name']},{ac['Id']},{ac['Email']}")
-
-    return
+                print(f"{ac_counter:02d},{ac['Name']},{ac['Id']},{ac['Email']}")  # noqa: E501
 
 
 def get_ou_accounts(parent_id: str) -> list:
     """List AWS accounts per Organization Unit."""
     ou_accounts = []
-    accounts_list = list(paginate(org, 'list_accounts_for_parent', ParentId=parent_id))
+    accounts_list = list(
+        paginate(ORG, 'list_accounts_for_parent', ParentId=parent_id)
+    )
     if accounts_list:
         sorted_accounts = fix_sort_accounts(accounts_list)
         for a in sorted_accounts:
@@ -172,7 +173,7 @@ def get_ou_accounts(parent_id: str) -> list:
 def get_ous(parent_id: str) -> list:
     """List Organization OUs per Parent OU."""
     ous = []
-    for ou in paginate(org, 'list_organizational_units_for_parent', ParentId=parent_id):
+    for ou in paginate(ORG, 'list_organizational_units_for_parent', ParentId=parent_id):  # pylint: disable=line-too-long # noqa: E501
         ous.append(
             {
                 'Type': 'OU',
@@ -231,7 +232,7 @@ def display_tree(parent_ou, prefix, ou_only):
     default='default',
     show_default=True,
     nargs=1,
-    help='Select AWS cli profile name of your root Organization account from ~/.aws/config file'
+    help='Select AWS cli profile name of your root Organization account from ~/.aws/config file'  # pylint: disable=line-too-long # noqa: E501
 )
 @click.option(
     '-r',
@@ -250,21 +251,22 @@ def display_tree(parent_ou, prefix, ou_only):
     type=click.Choice(['ALL', 'PROD', 'NON-PROD'], case_sensitive=False),
     help='Display AWS Accounts by environment type in your own name convention'
 )
-def org_tree(account_only: bool, ou_only: bool, environment:str, profile:str, region:str) -> None:
-    """Display AWS Organization tree and/or AWS Accounts - Only Active accounts will be displayed."""
+def org_tree(account_only: bool, ou_only: bool, environment: str, profile: str, region: str) -> None:  # pylint: disable=line-too-long # noqa: E501
+    """Display AWS Organization tree and/or AWS Accounts Only Active accounts
+    will be displayed."""
     session_obj = AwsSession(
-        profile,        # AWS cli profile name of the root account in the Organization.
+        profile,        # AWS cli profile name of the root account in the Org.
         region
     )
     session = session_obj.cli()
-    global org
-    org = session.client('organizations')
+    global ORG  # pylint: disable=global-variable-undefined
+    ORG = session.client('organizations')
 
     if account_only:
         display_org_accounts(environment)
     else:
-        org_details= org.describe_organization()
-        roots = org.list_roots()
+        org_details = ORG.describe_organization()
+        roots = ORG.list_roots()
         org_root_id = roots['Roots'][0]['Id']
         # Print Organization Unit root level
         print(f"\nOrganization ID: {org_details['Organization']['Id']}\n")
@@ -274,4 +276,4 @@ def org_tree(account_only: bool, ou_only: bool, environment:str, profile:str, re
 
 
 if __name__ == '__main__':
-    org_tree()
+    org_tree()  # pylint: disable=no-value-for-parameter

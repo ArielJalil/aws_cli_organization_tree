@@ -19,7 +19,7 @@ Display your AWS Organization tree or display the list of AWS accounts in your A
 
 ## Usage
 
-```bash
+```shell
 List AWS accounts in the company Organization or display an Organization tree.
 
 Usage: org_tree.py [OPTIONS]
