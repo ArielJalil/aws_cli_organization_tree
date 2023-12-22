@@ -2,16 +2,14 @@
 
 Display your AWS Organization tree or display the list of AWS accounts in your AWS Organization from CLI.
 
-
-## Requirements:
+## Requirements
 
 1. You will need to install and configure your AWS cli with a profile at your AWS Root Organization account.
     * [AWS cli documentation](https://aws.amazon.com/cli/)
 
 2. This code has been wrote and tested using [Python 3.10](https://www.python.org/downloads/release/python-3100/)
 
-
-### Python modules not included in the standatd library:
+### Python modules not included in the standatd library
 
 * boto3
 * botocore
@@ -19,10 +17,9 @@ Display your AWS Organization tree or display the list of AWS accounts in your A
 
 **Note:** If you are new to Python you can use [PIP](https://pip.pypa.io/en/stable/cli/pip_install/) to install the modules mentioned above.
 
+## Usage
 
-## Usage:
-
-```
+```bash
 List AWS accounts in the company Organization or display an Organization tree.
 
 Usage: org_tree.py [OPTIONS]
@@ -53,7 +50,6 @@ i.e.
 > python3 org_tree.py --account_only --profile YOUR_AWS_CLI_PROFILE
 ```
 
-
-## Author and Lincense:
+## Author and Lincense
 
 This script has been written by [Ariel Jall](https://github.com/ArielJalil) and it is released under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
