@@ -1,6 +1,7 @@
 # AWS Organization queries using cli
 
-Display your AWS Organization tree or display the list of AWS accounts in your AWS Organization from CLI.
+Display your AWS Organization tree or display the list of AWS accounts in your AWS Organization from
+ CLI.
 
 ## Requirements
 
@@ -15,7 +16,8 @@ Display your AWS Organization tree or display the list of AWS accounts in your A
 * botocore
 * click
 
-**Note:** If you are new to Python you can use [PIP](https://pip.pypa.io/en/stable/cli/pip_install/) to install the modules mentioned above.
+**Note:** If you are new to Python you can use [PIP](https://pip.pypa.io/en/stable/cli/pip_install/)
+ to install the modules mentioned above.
 
 ## Usage
 
@@ -53,4 +55,5 @@ i.e.
 
 ## Author and Lincense
 
-This script has been written by [Ariel Jall](https://github.com/ArielJalil) and it is released under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+This script has been written by [Ariel Jall](https://github.com/ArielJalil) and it is released under
+ [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
