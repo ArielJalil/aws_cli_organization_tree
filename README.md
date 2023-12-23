@@ -19,6 +19,13 @@ Display your AWS Organization tree or display the list of AWS accounts in your A
 **Note:** If you are new to Python you can use [PIP](https://pip.pypa.io/en/stable/cli/pip_install/)
  to install the modules mentioned above.
 
+### Consider to install pre-commit
+
+If you are planning to enhance this code it is highly recommended to install [pre-commit](https://pre-commit.com/index.html)
+ to speed up development and keep some standard coding style.
+
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+
 ## Usage
 
 ```shell
