@@ -147,7 +147,7 @@ def display_org_accounts(environment: str) -> None:
             account_env = get_env(ac['Name'])
             if environment == account_env:
                 ac_counter += 1
-                print(f"{ac_counter:02d},{ac['Name']},{ac['Id']},{ac['Email']}")  # noqa: E501
+                print(f"{ac_counter:02d},{ac['Name']},{ac['Id']},{ac['Email']}")
 
 
 def get_ou_accounts(parent_id: str) -> list:
@@ -173,7 +173,7 @@ def get_ou_accounts(parent_id: str) -> list:
 def get_ous(parent_id: str) -> list:
     """List Organization OUs per Parent OU."""
     ous = []
-    for ou in paginate(ORG, 'list_organizational_units_for_parent', ParentId=parent_id):  # pylint: disable=line-too-long # noqa: E501
+    for ou in paginate(ORG, 'list_organizational_units_for_parent', ParentId=parent_id):  # pylint: disable=line-too-long
         ous.append(
             {
                 'Type': 'OU',
@@ -232,7 +232,7 @@ def display_tree(parent_ou, prefix, ou_only):
     default='default',
     show_default=True,
     nargs=1,
-    help='Select AWS cli profile name of your root Organization account from ~/.aws/config file'  # pylint: disable=line-too-long # noqa: E501
+    help='Select AWS cli profile name of your root Organization account from ~/.aws/config file'  # pylint: disable=line-too-long
 )
 @click.option(
     '-r',
@@ -251,7 +251,7 @@ def display_tree(parent_ou, prefix, ou_only):
     type=click.Choice(['ALL', 'PROD', 'NON-PROD'], case_sensitive=False),
     help='Display AWS Accounts by environment type in your own name convention'
 )
-def org_tree(account_only: bool, ou_only: bool, environment: str, profile: str, region: str) -> None:  # pylint: disable=line-too-long # noqa: E501
+def org_tree(account_only: bool, ou_only: bool, environment: str, profile: str, region: str) -> None:  # pylint: disable=line-too-long
     """Display AWS Organization tree and/or AWS Accounts Only Active accounts
     will be displayed."""
     session_obj = AwsSession(
