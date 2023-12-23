@@ -9,7 +9,7 @@ Display your AWS Organization tree or display the list of AWS accounts in your A
 
 2. This code has been wrote and tested using [Python 3.10](https://www.python.org/downloads/release/python-3100/)
 
-### Python modules not included in the standatd library
+### Python modules not included in the Standatd library
 
 * boto3
 * botocore
@@ -28,6 +28,7 @@ Usage: org_tree.py [OPTIONS]
   will be displayed.
 
 Options:
+
   --ou_only / --no-ou_only        Display Organization Units (OUs) only
                                   [default: no-ou_only]
   --account_only / --no-account_only
