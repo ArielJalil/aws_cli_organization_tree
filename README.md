@@ -8,7 +8,7 @@ Display your AWS Organization tree or display the list of AWS accounts in your A
 1. You will need to install and configure your AWS cli with a profile at your AWS Root Organization account.
     * [AWS cli documentation](https://aws.amazon.com/cli/)
 
-2. This code has been wrote and tested using [Python 3.10](https://www.python.org/downloads/release/python-3100/)
+2. This code has been tested using [Python 3.12.1](https://pythoninsider.blogspot.com/2023/12/python-3121-is-now-available.html)
 
 ### Python modules not included in the Standatd library
 
